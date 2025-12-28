@@ -231,6 +231,16 @@ The model performs best with well-lit, frontal faces and proper preprocessing. F
 
 ---
 
+## Acknowledgment
+
+This project is based on the MiniFAS architecture from the
+Silent Face Anti-Spoofing project by Minivision AI, licensed under Apache-2.0.
+
+> This repository provides an independent training pipeline, ONNX export,
+quantization, and deployment tooling.
+
+---
+
 ## License
 
 Apache-2.0. See `LICENSE`.
