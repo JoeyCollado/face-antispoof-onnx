@@ -102,8 +102,39 @@ MiniFAS turned out to be a better fit:
 
 ## Quick Start
 
+### 1. Create and activate a virtual environment (Recommended)
+
+**Using Conda:**
+```bash
+conda create -n face-antispoof python=3.8
+conda activate face-antispoof
+```
+
+**OR using venv:**
+```bash
+python -m venv venv
+# Linux/macOS
+source venv/bin/activate
+# Windows
+venv\Scripts\activate
+```
+
+### 2. Install dependencies
 ```bash
 pip install -r requirements.txt
+```
+
+> [!IMPORTANT]
+> **Python Version:** This project requires **Python 3.8.0 or higher**.
+
+### Compatibility Note: Python 3.7.x
+Tested on **Python 3.7.16** and confirmed that they are **not compatible**. Attempting to install dependencies on Python 3.7.x will result in a `subprocess-exited-with-error` during the `pip` installation of backend dependencies.
+
+**Error Example:**
+```text
+ERROR: Ignored the following versions that require a different python version: 0.1.0 Requires-Python >=3.9; ...
+ERROR: Could not find a version that satisfies the requirement puccinialin
+ERROR: No matching distribution found for puccinialin
 ```
 
 > **Note:** To run on GPU, install `onnxruntime-gpu` instead of `onnxruntime`.
