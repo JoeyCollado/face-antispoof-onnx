@@ -59,10 +59,13 @@ The first version used MobileNetV4 (still in `src/mobilenetv4` for reference). I
 
 MiniFAS turned out to be a better fit:
 - Smaller model, faster inference
-- Built specifically for anti-spoofing (not a general-purpose backbone)
-- Uses Fourier Transform auxiliary loss which helps the model learn texture patterns that distinguish real skin from printed/displayed images
+- Built specifically for anti-spoofing, not a general-purpose backbone
+- Uses Fourier Transform auxiliary loss during training—this helps the model learn frequency-domain patterns that distinguish real skin texture from printed photos and screen displays
+- SE (Squeeze-and-Excitation) blocks for adaptive channel attention
 
-> The MobileNetV4 code remains for future use and reference, but all active training uses the MiniFAS architecture.
+> The MobileNetV4 code remains in `src/mobilenetv4/` for future experiments and reference. All current training uses MiniFASNet V2 SE.
+
+**[Architecture details →](docs/ARCHITECTURE.md)**
 
 ---
 
