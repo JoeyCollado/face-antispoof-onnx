@@ -12,7 +12,7 @@ from src.minifasv2.model import MultiFTNet
 from src.minifasv2.config import get_kernel
 
 
-def load_model_from_checkpoint(checkpoint_path, device, input_size=128, num_classes=2):
+def load_model_from_checkpoint(checkpoint_path, device, input_size=128):
     checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=True)
 
     if "model_state_dict" in checkpoint:
@@ -25,7 +25,7 @@ def load_model_from_checkpoint(checkpoint_path, device, input_size=128, num_clas
     kernel_size = get_kernel(input_size, input_size)
     model = MultiFTNet(
         num_channels=3,
-        num_classes=num_classes,
+        num_classes=2,
         embedding_size=128,
         conv6_kernel=kernel_size,
     ).to(device)
@@ -85,9 +85,6 @@ if __name__ == "__main__":
         "--input_size", type=int, default=128, help="Input image size (default: 128)"
     )
     parser.add_argument(
-        "--num_classes", type=int, default=2, help="Number of classes (default: 2)"
-    )
-    parser.add_argument(
         "--output",
         type=str,
         default=None,
@@ -104,9 +101,7 @@ if __name__ == "__main__":
     print(f"Using device: {device}")
 
     print(f"\nLoading model from {args.checkpoint_path}...")
-    model = load_model_from_checkpoint(
-        args.checkpoint_path, device, args.input_size, args.num_classes
-    )
+    model = load_model_from_checkpoint(args.checkpoint_path, device, args.input_size)
     print("[OK] Model loaded")
 
     if args.output is None:

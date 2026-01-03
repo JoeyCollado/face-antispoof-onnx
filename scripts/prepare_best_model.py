@@ -10,7 +10,7 @@ from src.minifasv2.model import MultiFTNet
 from src.minifasv2.config import get_kernel
 
 
-def extract_model_weights(checkpoint_path, output_path, input_size=128, num_classes=2):
+def extract_model_weights(checkpoint_path, output_path, input_size=128):
     print(f"Loading checkpoint: {checkpoint_path}")
 
     device = "cpu"
@@ -41,7 +41,7 @@ def extract_model_weights(checkpoint_path, output_path, input_size=128, num_clas
     kernel_size = get_kernel(input_size, input_size)
     model = MultiFTNet(
         num_channels=3,
-        num_classes=num_classes,
+        num_classes=2,
         embedding_size=128,
         conv6_kernel=kernel_size,
     )
@@ -53,7 +53,7 @@ def extract_model_weights(checkpoint_path, output_path, input_size=128, num_clas
         {
             "model_state_dict": clean_state_dict,
             "input_size": input_size,
-            "num_classes": num_classes,
+            "num_classes": 2,
             "architecture": "MiniFASNetV2SE",
         },
         output_path,
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "epoch_checkpoint",
         type=str,
-        help="Path to epoch checkpoint (e.g., epoch_31.pth)",
+        help="Path to epoch checkpoint",
     )
     parser.add_argument(
         "--output",
@@ -87,9 +87,6 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--input_size", type=int, default=128, help="Input image size (default: 128)"
-    )
-    parser.add_argument(
-        "--num_classes", type=int, default=2, help="Number of classes (default: 2)"
     )
 
     args = parser.parse_args()
@@ -102,7 +99,5 @@ if __name__ == "__main__":
         os.makedirs("models", exist_ok=True)
         args.output = "models/best_model.pth"
 
-    extract_model_weights(
-        args.epoch_checkpoint, args.output, args.input_size, args.num_classes
-    )
+    extract_model_weights(args.epoch_checkpoint, args.output, args.input_size)
     print(f"\n[OK] Best model ready: {args.output}")

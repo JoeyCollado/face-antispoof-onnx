@@ -75,7 +75,7 @@ MiniFAS turned out to be a better fit:
 
 **Using Conda:**
 ```bash
-conda create -n face-antispoof python=3.8
+conda create -n face-antispoof python
 conda activate face-antispoof
 ```
 
@@ -117,12 +117,12 @@ python demo.py
 or
 
 ```bash
-python demo.py --camera [index]
+python demo.py --camera <index>
 ```
 
 **Single image:**
 ```bash
-python demo.py --image path/to/face.jpg
+python demo.py --image <path>
 ```
 
 Green bbox = real. 
@@ -145,14 +145,14 @@ Run the prep script to crop faces:
 
 ```bash
 python scripts/prepare_data.py \
-  --orig_dir /path/to/raw/dataset \
-  --crop_dir data \
-  --size 128 \
-  --bbox_expansion_factor 1.5 \
-  --spoof_types 0 1 2 3 7 8 9
+  --orig_dir <path> \
+  --crop_dir <path> \
+  --size <number> \
+  --bbox_expansion_factor <float> \
+  --spoof_types <number> [<number> ...]
 ```
 
-This reads images, crops faces using the bounding boxes (with some padding), resizes to 128×128, and organizes everything into `train/` and `test/` folders.
+This reads images, crops faces using the bounding boxes (with some padding), resizes to the specified size, and organizes everything into `train/` and `test/` folders.
 
 → [**Why these preprocessing choices?**](docs/DATA_PREPARATION.md) (interpolation methods, padding strategy, etc.)
 
@@ -162,18 +162,19 @@ This reads images, crops faces using the bounding boxes (with some padding), res
 
 ```bash
 python scripts/train.py \
-  --crop_dir data \
-  --batch_size 256 \
-  --output_dir ./output
+  --crop_dir <path> \
+  --input_size <number> \
+  --batch_size <number> \
+  --output_dir <path>
 ```
 
-Checkpoints and TensorBoard logs go to `./output/MINIFAS/`.
+Checkpoints and TensorBoard logs go to `<output_dir>/MINIFAS/`.
 
 **Resume training:**
 ```bash
 python scripts/train.py \
-  --crop_dir data \
-  --resume ./output/MINIFAS/checkpoint_latest.pth
+  --crop_dir <path> \
+  --resume <checkpoint_path>
 ```
 
 ### 3. Prepare Model
@@ -181,9 +182,9 @@ python scripts/train.py \
 Extract clean model weights from checkpoint (removes optimizer state, FTGenerator, DataParallel prefixes):
 
 ```bash
-python scripts/prepare_best_model.py \
-  models/checkpoints/minifasv2\ \(128x128\)/epoch_31.pth \
-  --output models/best_model.pth
+python scripts/prepare_best_model.py <epoch_checkpoint> \
+  --output <path> \
+  --input_size <number>
 ```
 
 This creates a clean, inference-ready PyTorch model.
@@ -192,12 +193,16 @@ This creates a clean, inference-ready PyTorch model.
 
 **Regular ONNX export:**
 ```bash
-python scripts/export_onnx.py models/best_model.pth --input_size 128
+python scripts/export_onnx.py <checkpoint_path> \
+  --input_size <number> \
+  --output <path>
 ```
 
 **Quantized ONNX:**
 ```bash
-python scripts/quantize_onnx.py models/best_model.pth --input_size 128
+python scripts/quantize_onnx.py <checkpoint_path> \
+  --input_size <number> \
+  --output <path>
 ```
 
 ---
