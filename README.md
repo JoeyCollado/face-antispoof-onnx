@@ -11,6 +11,8 @@
 
 </div>
 
+A lightweight face anti-spoofing model that distinguishes real faces from spoofing attempts (printed photos, screen displays, etc.). Used in [**SURI**](https://github.com/johnraivenolazo/suri), an AI-powered attendance tracker.
+
 ### Performance Demo
 
 > **Note:** The demo above was recorded on legacy hardware to showcase the model's efficiency on low-spec devices.
@@ -20,7 +22,6 @@
 | **CPU** | Intel® Core™ i7-2630QM @ 2.00GHz (4C/8T) |
 | **GPU** | None (Inference run on CPU) |
 
-A lightweight face anti-spoofing model that distinguishes real faces from spoofing attempts (printed photos, screen displays, etc.). Used in [**SURI**](https://github.com/johnraivenolazo/suri), an AI-powered attendance tracker.
 
 ---
 
